@@ -5,35 +5,27 @@ const Find = () => {
     setFindValue(event.target.value);
   };
   const handleSingleFind = () => {
-    const elements = document.getElementsByClassName("singleQuery");
-    var i = 0,
-      found = false;
-    while (i < elements.length && !found) {
-      let innerHTML = elements[i].innerHTML;
-      let index = innerHTML.toLowerCase().indexOf(findValue.toLowerCase());
-      if (index > -1) {
-        found = true;
-        innerHTML =
-          innerHTML.substring(0, index) +
-          "<span class='highlight'>" +
-          innerHTML.substring(index, index + findValue.length) +
-          "</span>" +
-          innerHTML.substring(index + findValue.length);
-        elements[i].innerHTML = innerHTML;
-      }
-      i++;
+    let firstHighlighted = document.getElementsByClassName("highlight")[0];
+    if (firstHighlighted) {
+      let oldValue = firstHighlighted.innerHTML;
+      firstHighlighted.innerHTML = firstHighlighted.innerHTML.replace(
+        oldValue,
+        findValue
+      );
+      firstHighlighted.classList.remove("highlight");
     }
   };
   const handleAllFinds = () => {
-    const elements = document.getElementsByClassName("singleQuery");
+    let elements = document.getElementsByClassName("highlight");
+    console.log(elements.length);
     for (var i = 0; i < elements.length; i++) {
-      let innerHTML = elements[i].innerHTML;
-      let index = innerHTML.toLowerCase().indexOf(findValue);
-      let highlighted = '<span class="highlight">' + findValue + "</span>";
-      if (index > -1) {
-        innerHTML = innerHTML.replace(new RegExp(findValue, "gi"), highlighted);
-        elements[i].innerHTML = innerHTML;
-      }
+      let oldValue = elements[i].innerHTML;
+      console.log(i);
+      elements[i].innerHTML = elements[i].innerHTML.replace(
+        oldValue,
+        findValue
+      );
+      elements[i].classList.add("nonHighlight");
     }
   };
   return (
