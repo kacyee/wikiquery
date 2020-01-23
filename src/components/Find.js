@@ -10,7 +10,7 @@ const Find = () => {
       found = false;
     while (i < elements.length && !found) {
       let innerHTML = elements[i].innerHTML;
-      let index = innerHTML.indexOf(findValue);
+      let index = innerHTML.toLowerCase().indexOf(findValue.toLowerCase());
       if (index > -1) {
         found = true;
         innerHTML =
@@ -26,20 +26,14 @@ const Find = () => {
   };
   const handleAllFinds = () => {
     const elements = document.getElementsByClassName("singleQuery");
-    var i = 0;
-    while (i < elements.length) {
+    for (var i = 0; i < elements.length; i++) {
       let innerHTML = elements[i].innerHTML;
-      let index = innerHTML.toLowerCase().indexOf(findValue.toLowerCase());
+      let index = innerHTML.toLowerCase().indexOf(findValue);
+      let highlighted = '<span class="highlight">' + findValue + "</span>";
       if (index > -1) {
-        innerHTML =
-          innerHTML.substring(0, index) +
-          "<span class='highlight'>" +
-          innerHTML.substring(index, index + findValue.length) +
-          "</span>" +
-          innerHTML.substring(index + findValue.length);
+        innerHTML = innerHTML.replace(new RegExp(findValue, "gi"), highlighted);
         elements[i].innerHTML = innerHTML;
       }
-      i++;
     }
   };
   return (
